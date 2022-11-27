@@ -1,0 +1,11 @@
+@font-face {
+  font-family: vazir;
+  src: url("./../fonts/vazir/Vazir.eot") url("./../fonts/vazir/Vazir.ttf")
+    url("./../fonts/vazir/Vazir.woff") url("./../fonts/vazir/Vazir.woff2");
+}
+body {
+  font-family: vazir !important;
+}
+body::-webkit-scrollbar{
+  /* width: 5px; */
+}

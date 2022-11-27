@@ -1,0 +1,10 @@
+{
+  "LANG": "en",
+  "signin": "Sign In",
+  "rememberMe": "Remember Me",
+  "forget-password": "Forget Password ?",
+  "login": "Login",
+  "incorrect-username-password": "Username Or Password Is Incorrect",
+  "username":"Username",
+  "password":"Password"
+}

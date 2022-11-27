@@ -1,0 +1,32 @@
+export const chatData = [
+    {
+        id:1,
+        name:'ali',
+        image:'./images/logo.png',
+        active:true,
+    },
+    {
+        id:2,
+        name:'کریمی',
+        image:null,
+        active:false,
+    },
+    {
+        id:3,
+        name:'amir',
+        image:'./images/logo.png',
+        active:false,
+    },
+    {
+        id:4,
+        name:'developer',
+        image:null,
+        active:true,
+    },
+    {
+        id:5,
+        name:'حسن',
+        image:null,
+        active:false,
+    },
+]

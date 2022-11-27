@@ -1,0 +1,45 @@
+.sidebar.is-open,
+.sidebar.is-hover {
+  width: 250px !important;
+}
+
+.test {
+  opacity: 0;
+  transform: scale(0)
+}
+
+.moz {
+  opacity: 1;
+  transform: scale(1)
+  
+}
+
+
+.sidebar.is-close {
+  .head {
+    .btn-toggle-sidebar {
+      visibility: hidden;
+    }
+  }
+  .list-category {
+    display: none;
+  }
+  .line-category {
+    width: 2rem !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+  .item {
+    .icon-item-list {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      margin-left: 8px;
+    }
+    .title-item-list {
+      visibility: hidden;
+    }
+    .arrow-sub-list {
+      visibility: hidden;
+    }
+  }
+}
