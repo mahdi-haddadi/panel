@@ -1,6 +1,7 @@
 import { Fragment, memo } from "react";
 import { BsArrowsFullscreen } from "react-icons/bs";
 import Button from "../../../components/button/Button";
+import Tooltip from "../../../components/tooltip/Tooltip";
 import { openFullscreen } from "../../../utils/fullScreen";
 import ChangeLanguage from "./ChangeLanguage";
 import FontSize from "./FontSize";
@@ -14,7 +15,9 @@ const Screen = memo(() => {
       rounded={true}
       onClick={openFullscreen}
     >
-      <BsArrowsFullscreen size={"1.4rem"} color={"#626477"} />
+      <Tooltip content={"hello world"} position={"bottom"}>
+        <BsArrowsFullscreen size={"1.4rem"} color={"#626477"} />
+      </Tooltip>
     </Button>
   );
 });
