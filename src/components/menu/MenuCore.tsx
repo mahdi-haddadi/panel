@@ -35,7 +35,7 @@ const MenuCore: FC<Props> = ({ children }) => {
       );
       return clone;
     }
-    return child
+    return child;
   });
   return <Fragment>{childNode}</Fragment>;
 };
