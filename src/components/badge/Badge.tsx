@@ -45,11 +45,12 @@ const Badge: FC<Props> = ({
       <div
         className={classNames(
           colorBadge[color],
-          `w-auto h-auto absolute text-xs px-1`,
+          ` absolute text-xs`,
           className,
           {
             "rounded-full": rounded,
             "w-3 h-3": !value,
+            "w-auto h-auto": value,
           }
         )}
         style={style}

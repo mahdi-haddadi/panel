@@ -46,7 +46,7 @@ const InvitedUsersAction = ({ id }: any) => {
         >
           <Badge
             value={userInvited?.length || 0}
-            className="rounded-full -left-3 top-0"
+            className="rounded-full -left-3 top-0 px-2 py-2 flex items-center justify-center"
           >
             <AiOutlineEye color="#000" size={"1.2rem"} />
           </Badge>
