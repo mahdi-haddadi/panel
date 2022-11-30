@@ -8,8 +8,14 @@ interface Props {
   columns: Object[];
 }
 const Tbody: FC<Props> = ({ data, columns }) => {
-  const { setTableSelected, tableSelected, sliceData, checkbox, actions } =
-    useContext(TableContext);
+  const {
+    setTableSelected,
+    tableSelected,
+    sliceData,
+    checkbox,
+    actions,
+    filterColumns,
+  } = useContext(TableContext);
 
   const handleIsChecked = useCallback(
     (id: number): boolean => {
@@ -51,7 +57,7 @@ const Tbody: FC<Props> = ({ data, columns }) => {
                   />
                 </td>
               )}
-              {columns.map((c: any, index) => {
+              {filterColumns.map((c: any, index) => {
                 return (
                   <td
                     key={index}

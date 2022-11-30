@@ -30,6 +30,8 @@ export const TableContext = createContext({
   actions: undefined,
   firstPageData: 1,
   lastPageData: 1,
+  filterColumns: [],
+  setFilterColumns: vd,
 } as IContextValues);
 
 const TableProvider = ({ values, children }: Props) => {

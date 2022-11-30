@@ -14,6 +14,7 @@ import {
   BsFillCaretUpFill,
   BsFillDiamondFill,
 } from "react-icons/bs";
+import useDebounce from "../../hooks/useDebounce";
 import usePagination from "../../hooks/usePagination";
 import Loading from "../loading/Loading";
 import Tbody from "./components/Tbody";
@@ -33,6 +34,7 @@ interface Props {
   actions?: IActions[];
   error?: any;
   id?: string;
+  keySearch?: string | string[];
 }
 
 const Table: FC<Props> = ({
@@ -45,10 +47,22 @@ const Table: FC<Props> = ({
   actions,
   error,
   id,
+  keySearch,
 }) => {
   const [currentSort, setCurrentSort] = useState<ISort>("DEFAULT");
   const [keySort, setKeySort] = useState("");
   const [search, setSearch] = useState("");
+  const [filterColumns, setFilterColumns] = useState([]);
+
+  const _search = useDebounce(search, 500);
+
+  // useEffect(() => {
+  //   // if filter columns 
+  //   const a:any = filterColumns.map((i:any) => ({...i,isShow:false}))
+  //   // console.log(a)
+  //   setFilterColumns(a)
+  // }, [filterColumns])
+  
 
   const {
     filteredData,
@@ -68,15 +82,29 @@ const Table: FC<Props> = ({
   } = usePagination(data);
 
   useEffect(() => {
-    if (search.length > 0) {
-      const filterBySearchData = data.filter((i: any) =>
-        i.phone.includes(search)
-      );
-      setFilteredData(filterBySearchData);
-    } else {
-      setFilteredData(data);
+    if (typeof keySearch === "string") {
+      if (_search.length > 0) {
+        const filterBySearchData = data.filter((i: any) =>
+          i[keySearch].includes(_search)
+        );
+        setFilteredData(filterBySearchData);
+      } else {
+        setFilteredData(data);
+      }
+    } else if (keySearch?.length) {
+      // bug in keySearchs
+      if (_search.length > 0) {
+        keySearch.forEach((key: string) => {
+          const filterBySearchData = data.filter((i: any) =>
+            i[key].includes(_search)
+          );
+          setFilteredData(filterBySearchData);
+        });
+      } else {
+        setFilteredData(data);
+      }
     }
-  }, [search, data, setFilteredData]);
+  }, [data, setFilteredData, keySearch, _search]);
 
   const sortUp = useCallback(
     (key: string) => {
@@ -135,9 +163,12 @@ const Table: FC<Props> = ({
   useEffect(() => {
     data && sortTypes[currentSort.toLowerCase()].fn(keySort);
   }, [currentSort, data, keySort, sortTypes]);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
-  };
+  }, []);
+
+  const setShowColumns = (key: string) => {};
+
   return (
     <Fragment>
       <TableProvider
@@ -165,6 +196,8 @@ const Table: FC<Props> = ({
           actions,
           firstPageData,
           lastPageData,
+          filterColumns,
+          setFilterColumns,
         }}
       >
         <div className="flex flex-col bg-bg-default my-20 shadow-xl">
@@ -177,6 +210,7 @@ const Table: FC<Props> = ({
                     columns={columns}
                     handleSort={handleSort}
                     sortTypes={sortTypes}
+                    setShowColumns={setShowColumns}
                   />
                   {/* {
                   error && error

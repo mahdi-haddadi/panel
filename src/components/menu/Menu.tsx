@@ -10,6 +10,7 @@ import {
   cloneElement,
 } from "react";
 import useOnClickOutside from "../../hooks/useClickOutSide";
+import { freezeScreen } from "../../utils/functions";
 import Portal from "../../utils/Portal";
 
 interface Props {
@@ -37,15 +38,7 @@ const Menu: FC<Props> = ({
   // const [pos, setPos] = useState()
   useEffect(() => {
     if (freeze) {
-      if (element!!) {
-        document.body.style.width = "100%";
-        document.body.style.height = "100vh";
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.width = "100%";
-        document.body.style.height = "unset";
-        document.body.style.overflow = "auto";
-      }
+      freezeScreen(!!element);
     }
   }, [element, freeze]);
 

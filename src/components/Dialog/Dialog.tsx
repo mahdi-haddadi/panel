@@ -1,8 +1,16 @@
-import React, { Children, FC, Fragment, ReactNode, useRef } from "react";
+import React, {
+  Children,
+  FC,
+  Fragment,
+  ReactNode,
+  useRef,
+  useEffect,
+} from "react";
 import CSS from "csstype";
 import classNames from "classnames";
 import Portal from "../../utils/Portal";
 import useOnClickOutside from "../../hooks/useClickOutSide";
+import { freezeScreen } from "../../utils/functions";
 interface Props {
   open: boolean;
   IsClose: () => void;
@@ -10,6 +18,8 @@ interface Props {
   style?: CSS.Properties;
   className?: string;
   children: ReactNode;
+  backLayer?: boolean;
+  freeze?: boolean;
 }
 interface IChildComponent {
   style?: CSS.Properties;
@@ -30,6 +40,8 @@ const Dialog = ({
   style,
   className,
   children,
+  backLayer = true,
+  freeze = true,
 }: Props) => {
   const sizes = {
     xs: 444,
@@ -43,12 +55,20 @@ const Dialog = ({
   const Footer: any = getChildrenOnDisplayName(children, "Footer");
   const refDialog = useRef<any>();
   useOnClickOutside(refDialog, IsClose);
+  useEffect(() => {
+    if (freeze) {
+      freezeScreen(open);
+    }
+  }, [freeze,open]);
+
   return (
     <Fragment>
       {open && (
         <Portal className="dialog">
           <div className="dialog w-full h-screen fixed z-50  flex justify-center items-center inset-0">
-            <div className="layer bg-black/[0.5] w-full -z-10 h-screen fixed transition-opacity top-0 left-0" />
+            {backLayer && (
+              <div className="layer bg-black/[0.5] w-full -z-10 h-screen fixed transition-opacity top-0 left-0" />
+            )}
             <div
               ref={refDialog}
               className={classNames(
