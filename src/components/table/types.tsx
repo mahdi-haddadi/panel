@@ -25,16 +25,9 @@ export interface IActions {
   content: any;
 }
 export interface IContextValues {
-  currentSort: ISort;
-  setCurrentSort: Dispatch<SetStateAction<ISort>>;
-  keySort: string;
-  setKeySort: Dispatch<SetStateAction<string>>;
-  filteredData: Object[];
-  setFilteredData: Dispatch<SetStateAction<Object[]>>;
   tableSelected: number[];
   setTableSelected: Dispatch<SetStateAction<number[]>>;
   data: Object[];
-  currentPage: number;
   nextPage: () => void;
   prevPage: () => void;
   pageNumbers: Object[];

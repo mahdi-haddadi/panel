@@ -7,16 +7,9 @@ interface Props {
 }
 const vd = () => {};
 export const TableContext = createContext({
-  currentSort: "DEFAULT",
-  setCurrentSort: vd,
-  keySort: "",
-  setKeySort: vd,
-  filteredData: [],
-  setFilteredData: vd,
   tableSelected: [],
   setTableSelected: vd,
   data: [],
-  currentPage: 1,
   nextPage: vd,
   pageNumbers: [],
   pages: 1,

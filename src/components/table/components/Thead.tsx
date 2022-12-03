@@ -5,6 +5,8 @@ import {
   useCallback,
   useState,
   Fragment,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import { AiOutlineLine } from "react-icons/ai";
 import { BsGripVertical } from "react-icons/bs";
@@ -19,7 +21,7 @@ import MenuItem from "../../menu/MenuItem";
 import MenuToggle from "../../menu/MenuToggle";
 import { TableContext } from "../context/TableContext";
 import Dialog from "./../../Dialog/Dialog";
-import { IActions, IColumns } from "../types";
+import { IActions,ISort, IColumns } from "../types";
 import Button from "../../button/Button";
 import Switch from "../../switch/Switch";
 interface Props {
@@ -27,17 +29,19 @@ interface Props {
   handleSort: () => void;
   sortTypes: any;
   setShowColumns: (key: string) => void;
+  currentSort:ISort,
+  setKeySort:Dispatch<SetStateAction<string>>
 }
 const Thead: FC<Props> = ({
   columns,
   handleSort,
   sortTypes,
   setShowColumns,
+  currentSort,
+  setKeySort,
 }) => {
   const { close, open, state: isShowDialogFilterColumns } = useToggle();
   const {
-    currentSort,
-    setKeySort,
     data,
     setTableSelected,
     tableSelected,

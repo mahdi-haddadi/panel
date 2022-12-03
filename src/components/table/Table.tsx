@@ -173,16 +173,9 @@ const Table: FC<Props> = ({
     <Fragment>
       <TableProvider
         values={{
-          currentSort,
-          setCurrentSort,
-          keySort,
-          setKeySort,
-          filteredData,
-          setFilteredData,
           tableSelected,
           setTableSelected,
           data,
-          currentPage,
           nextPage,
           pageNumbers,
           pages,
@@ -211,6 +204,8 @@ const Table: FC<Props> = ({
                     handleSort={handleSort}
                     sortTypes={sortTypes}
                     setShowColumns={setShowColumns}
+                    currentSort={currentSort}
+                    setKeySort={setKeySort}
                   />
                   {/* {
                   error && error
