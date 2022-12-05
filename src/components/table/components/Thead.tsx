@@ -21,7 +21,7 @@ import MenuItem from "../../menu/MenuItem";
 import MenuToggle from "../../menu/MenuToggle";
 import { TableContext } from "../context/TableContext";
 import Dialog from "./../../Dialog/Dialog";
-import { IActions,ISort, IColumns } from "../types";
+import { IActions, ISort, IColumns } from "../types";
 import Button from "../../button/Button";
 import Switch from "../../switch/Switch";
 interface Props {
@@ -29,8 +29,8 @@ interface Props {
   handleSort: () => void;
   sortTypes: any;
   setShowColumns: (key: string) => void;
-  currentSort:ISort,
-  setKeySort:Dispatch<SetStateAction<string>>
+  currentSort: ISort;
+  setKeySort: Dispatch<SetStateAction<string>>;
 }
 const Thead: FC<Props> = ({
   columns,
@@ -71,6 +71,16 @@ const Thead: FC<Props> = ({
   //   },
   //   [filterColumns, setFilterColumns]
   // );
+
+  const hideAllColumns = () => {
+    setFilterColumns([]);
+  };
+  const showAllColumns = () => {
+    setFilterColumns([...columns]);
+  };
+  const handleIsCheck = (key: string) => {
+    return filterColumns.some((col) => col.key === key);
+  };
   return (
     <Fragment>
       <thead className="border-b bg-bg-default select-none">
@@ -83,13 +93,13 @@ const Thead: FC<Props> = ({
                     tableSelected.length < data.length &&
                     tableSelected.length !== 0
                   }
-                  setChecked={setSelectAll}
+                  setChecked={() => setSelectAll((state) => !state)}
                   component={<AiOutlineLine color="#fff" />}
                 />
               ) : (
                 <InputCheckbox
                   checked={tableSelected.length === data.length}
-                  setChecked={setSelectAll}
+                  setChecked={() => setSelectAll((state) => !state)}
                 />
               )}
             </th>
@@ -124,9 +134,7 @@ const Thead: FC<Props> = ({
                           </span>
                         </MenuToggle>
                         <Menu>
-                          <MenuItem>
-                            Hide
-                          </MenuItem>
+                          <MenuItem>Hide</MenuItem>
                           <MenuItem onClick={open}>Show Columns</MenuItem>
                         </Menu>
                       </MenuCore>
@@ -176,12 +184,12 @@ const Thead: FC<Props> = ({
       >
         <Dialog.Body>
           <div>
-            {filterColumns.length &&
-              filterColumns.map((i) => {
+            {columns.length &&
+              columns.map((i) => {
                 return (
                   <div className="flex my-2 px-4" key={i.key}>
                     <Checkbox
-                      checked={true}
+                      checked={handleIsCheck(i.key)}
                       setChecked={() => setShowColumns(i.key)}
                     >
                       <Switch className="mx-2" />
@@ -194,8 +202,12 @@ const Thead: FC<Props> = ({
         </Dialog.Body>
         <Dialog.Footer>
           <div className="flex justify-between">
-            <Button color="danger-outline">Hide All</Button>
-            <Button color="danger-outline">Show All</Button>
+            <Button color="danger-outline" onClick={hideAllColumns}>
+              Hide All
+            </Button>
+            <Button color="danger-outline" onClick={showAllColumns}>
+              Show All
+            </Button>
           </div>
         </Dialog.Footer>
       </Dialog>

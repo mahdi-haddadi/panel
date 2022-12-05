@@ -52,17 +52,18 @@ const Table: FC<Props> = ({
   const [currentSort, setCurrentSort] = useState<ISort>("DEFAULT");
   const [keySort, setKeySort] = useState("");
   const [search, setSearch] = useState("");
-  const [filterColumns, setFilterColumns] = useState([]);
+  const [filterColumns, setFilterColumns] = useState<IColumns[] | []>([
+    ...columns,
+  ]);
 
   const _search = useDebounce(search, 500);
 
   // useEffect(() => {
-  //   // if filter columns 
-  //   const a:any = filterColumns.map((i:any) => ({...i,isShow:false}))
+  //   // if filter columns
+  //   const a:{key:string,title:any,isShow:boolean}[] = filterColumns.map((i:any) => ({...i,isShow:false}))
   //   // console.log(a)
-  //   setFilterColumns(a)
+  //   // setFilterColumns(a)
   // }, [filterColumns])
-  
 
   const {
     filteredData,
@@ -167,7 +168,23 @@ const Table: FC<Props> = ({
     setSearch(e.currentTarget.value);
   }, []);
 
-  const setShowColumns = (key: string) => {};
+  const setShowColumns = useCallback(
+    (key: string) => {
+      if (filterColumns.some((col) => col.key === key)) {
+        const filteredData = filterColumns.filter((col) => col.key !== key);
+        setFilterColumns(filteredData);
+      } else {
+        let copyData = [...columns];
+        const item: IColumns | undefined = copyData.find(
+          (col) => col.key === key
+        );
+        if (item) {
+          setFilterColumns((prev) => [...prev, item]);
+        }
+      }
+    },
+    [columns, filterColumns]
+  );
 
   return (
     <Fragment>

@@ -97,7 +97,7 @@ const AddAdmin = () => {
               </select>
             </div>
           </div>
-          <Checkbox checked={ckeckbox} setChecked={setckeckbox}>
+          <Checkbox checked={ckeckbox} setChecked={() => setckeckbox(state => !state)}>
             <InputCheckbox style={{ display: "inline-block" }} />
             <LabelCheckbox>
               <span className="mx-2 text-text-secondary"><Translator>admin-is-active</Translator></span>

@@ -26,7 +26,7 @@ const Pages = () => {
             onMouseEnter={open}
             onMouseLeave={close}
           >
-            <InputCheckbox checked={check} setChecked={setCheck} />
+            <InputCheckbox checked={check} setChecked={() => setCheck(state => !state)} />
             <div className="title text-center flex flex-col  items-center">
               <span>Home</span>
               {state && (

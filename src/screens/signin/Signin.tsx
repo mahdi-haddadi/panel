@@ -83,7 +83,10 @@ const Signin = () => {
             </div>
             <div className="w-full flex justify-between items-center my-4">
               <div className="flex justify-center items-center">
-                <Checkbox checked={rememberMe} setChecked={setRememberMe}>
+                <Checkbox
+                  checked={rememberMe}
+                  setChecked={() => setRememberMe((state) => !state)}
+                >
                   <InputCheckbox style={{ display: "inline-block" }} />
                   <LabelCheckbox>
                     <span className="mx-2">

@@ -25,15 +25,15 @@ type IColor =
   | "light"
   | "dark";
 interface Props {
-  checked: boolean;
-  setChecked: Dispatch<SetStateAction<boolean>>;
+  checked: any;
+  setChecked: () => void;
 }
 interface ICheckbox extends Props {
   children: ReactNode;
 }
 interface ILabel {
   children: ReactNode;
-  setChecked?: Dispatch<SetStateAction<boolean>>;
+  setChecked?: () => void;
   className?: string;
 }
 interface IInputCheckbox {
@@ -41,7 +41,7 @@ interface IInputCheckbox {
   className?: string;
   style?: CSS.Properties;
   checked?: boolean;
-  setChecked?: Dispatch<SetStateAction<boolean>>;
+  setChecked?: () => void;
   onClick?: () => void;
   component?: JSX.Element;
   color?: IColor;
@@ -92,7 +92,7 @@ export const InputCheckbox = memo(
       <div
         onClick={() => {
           onClick && onClick();
-          if (setChecked) setChecked((state) => !state);
+          setChecked && setChecked();
         }}
         style={style}
         className={classNames(
@@ -119,9 +119,7 @@ export const LabelCheckbox = memo(
     return (
       <label
         className={classNames(className, "select-none cursor-pointer")}
-        onClick={() => {
-          setChecked && setChecked((state) => !state);
-        }}
+        onClick={() => setChecked && setChecked()}
       >
         {children}
       </label>

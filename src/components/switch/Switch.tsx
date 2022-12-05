@@ -5,7 +5,7 @@ import HoverEffect from "../hoverEffect/HoverEffect";
 
 interface Props {
   checked?: boolean;
-  setChecked?: Dispatch<SetStateAction<boolean>>;
+  setChecked?: () => void;
   style?: CSS.Properties;
   className?: string;
 }
@@ -17,7 +17,7 @@ const Switch: FC<Props> = ({
 }) => {
   return (
     <div
-      className={classNames("switch-btn flex justify-center",className)}
+      className={classNames("switch-btn flex justify-center", className)}
       style={style}
     >
       <label htmlFor="switch-btn">
@@ -43,7 +43,7 @@ const Switch: FC<Props> = ({
             id="switch-btn"
             type={"checkbox"}
             className="hidden"
-            onChange={() => setChecked && setChecked((state) => !state)}
+            onChange={() => setChecked && setChecked()}
           />
         </div>
       </label>

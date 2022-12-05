@@ -42,5 +42,5 @@ export interface IContextValues {
   firstPageData: number;
   lastPageData: number;
   filterColumns: IColumns[] | [];
-  setFilterColumns: Dispatch<SetStateAction<IColumns[]>> | Dispatch<SetStateAction<never[]>>;
+  setFilterColumns: Dispatch<SetStateAction<IColumns[]>>;
 }
