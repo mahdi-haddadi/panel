@@ -1,7 +1,6 @@
 import classNames from "classnames";
-import { FC, SetStateAction, Dispatch } from "react";
+import { FC } from "react";
 import CSS from "csstype";
-import HoverEffect from "../hoverEffect/HoverEffect";
 
 interface Props {
   checked?: boolean;
