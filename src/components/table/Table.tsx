@@ -165,7 +165,6 @@ const Table: FC<Props> = ({
 
   const setShowColumns = useCallback(
     (key: string) => {
-      console.log(key);
       let copyData = [...filterColumns];
       copyData.forEach((col) => {
         if (col.key === key) {

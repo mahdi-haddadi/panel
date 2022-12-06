@@ -69,7 +69,11 @@ const TooltipContent: FC<ITooltipContent> = memo(
     }, [position, positionEl.left, positionEl.top]);
 
     const output = (
-      <div className={classNames(tooltipClass)} ref={tooltipEl}>
+      <div
+        className={classNames(tooltipClass)}
+        style={{ zIndex: 99 }}
+        ref={tooltipEl}
+      >
         {content}
       </div>
     );
@@ -122,14 +126,23 @@ const Tooltip: FC<ITooltip> = ({
     (e: any) => {
       const pos = e.currentTarget?.getBoundingClientRect();
       if (position === "top") {
-        setPositionEl({ top: pos.top, left: pos.left + pos.width / 2 });
+        setPositionEl({
+          top: pos.top + e.pageY,
+          left: pos.left + pos.width / 2,
+        });
       } else if (position === "left") {
-        setPositionEl({ top: pos.top + pos.height / 2, left: pos.left });
+        setPositionEl({
+          top: pos.top + e.pageY + pos.height / 2,
+          left: pos.left,
+        });
       } else if (position === "bottom") {
-        setPositionEl({ top: pos.bottom, left: pos.left + pos.width / 2 });
+        setPositionEl({
+          top: pos.bottom + e.pageY - 50,
+          left: pos.left + pos.width / 2,
+        });
       } else if (position === "right") {
         setPositionEl({
-          top: pos.top + pos.height / 2,
+          top: pos.top + e.pageY + pos.height / 2,
           left: pos.left + pos.width,
         });
       }
@@ -161,7 +174,7 @@ const Tooltip: FC<ITooltip> = ({
 
       {cloneElement(children, {
         onMouseLeave: () => hide(),
-        onMouseOver: getPosition,
+        onMouseEnter: getPosition,
         ...children.props,
       })}
     </Fragment>
