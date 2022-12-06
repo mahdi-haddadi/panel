@@ -4,6 +4,13 @@ export type ISort = "DEFAULT" | "DOWN" | "UP";
 export interface IColumns {
   key: string;
   title: string | JSX.Element | null;
+  differentShow?: (i: any) => void;
+}
+export interface IColumnsFilter {
+  key: string;
+  title: string | JSX.Element | null;
+  isShow: boolean;
+  differentShow?: (i: any) => void;
 }
 export interface ISortTypes {
   up: {
@@ -41,6 +48,6 @@ export interface IContextValues {
   actions: IActions[] | undefined;
   firstPageData: number;
   lastPageData: number;
-  filterColumns: IColumns[] | [];
-  setFilterColumns: Dispatch<SetStateAction<IColumns[]>>;
+  filterColumns: IColumnsFilter[] | [];
+  setFilterColumns: Dispatch<SetStateAction<IColumnsFilter[]>>;
 }

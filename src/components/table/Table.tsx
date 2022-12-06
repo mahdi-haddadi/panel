@@ -22,7 +22,7 @@ import Tfooter from "./components/Tfooter";
 import Thead from "./components/Thead";
 import Theader from "./components/Theader";
 import TableProvider from "./context/TableContext";
-import { IActions, IColumns, ISort } from "./types";
+import { IActions, IColumns, IColumnsFilter, ISort } from "./types";
 
 interface Props {
   columns: IColumns[];
@@ -52,18 +52,13 @@ const Table: FC<Props> = ({
   const [currentSort, setCurrentSort] = useState<ISort>("DEFAULT");
   const [keySort, setKeySort] = useState("");
   const [search, setSearch] = useState("");
-  const [filterColumns, setFilterColumns] = useState<IColumns[] | []>([
-    ...columns,
-  ]);
+  const [filterColumns, setFilterColumns] = useState<IColumnsFilter[] | []>([]);
+
+  useEffect(() => {
+    setFilterColumns(columns.map((col) => ({ ...col, isShow: true })));
+  }, [columns]);
 
   const _search = useDebounce(search, 500);
-
-  // useEffect(() => {
-  //   // if filter columns
-  //   const a:{key:string,title:any,isShow:boolean}[] = filterColumns.map((i:any) => ({...i,isShow:false}))
-  //   // console.log(a)
-  //   // setFilterColumns(a)
-  // }, [filterColumns])
 
   const {
     filteredData,
@@ -170,20 +165,15 @@ const Table: FC<Props> = ({
 
   const setShowColumns = useCallback(
     (key: string) => {
-      if (filterColumns.some((col) => col.key === key)) {
-        const filteredData = filterColumns.filter((col) => col.key !== key);
-        setFilterColumns(filteredData);
-      } else {
-        let copyData = [...columns];
-        const item: IColumns | undefined = copyData.find(
-          (col) => col.key === key
-        );
-        if (item) {
-          setFilterColumns((prev) => [...prev, item]);
+      let copyData = [...filterColumns];
+      copyData.forEach((col) => {
+        if (col.key === key) {
+          col.isShow = !col.isShow;
         }
-      }
+      });
+      setFilterColumns(copyData);
     },
-    [columns, filterColumns]
+    [filterColumns]
   );
 
   return (

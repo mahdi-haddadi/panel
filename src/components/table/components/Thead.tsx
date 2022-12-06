@@ -21,7 +21,7 @@ import MenuItem from "../../menu/MenuItem";
 import MenuToggle from "../../menu/MenuToggle";
 import { TableContext } from "../context/TableContext";
 import Dialog from "./../../Dialog/Dialog";
-import { IActions, ISort, IColumns } from "../types";
+import { IActions, ISort, IColumns, IColumnsFilter } from "../types";
 import Button from "../../button/Button";
 import Switch from "../../switch/Switch";
 interface Props {
@@ -64,23 +64,26 @@ const Thead: FC<Props> = ({
     }
   }, [data, selectAll, setTableSelected]);
 
-  // const handleHideColumn = useCallback(
-  //   (key: string) => {
-  //     const filter = filterColumns.filter((i) => i.key !== key);
-  //     setFilterColumns(filter);
-  //   },
-  //   [filterColumns, setFilterColumns]
-  // );
-
-  const hideAllColumns = () => {
-    setFilterColumns([]);
-  };
-  const showAllColumns = () => {
-    setFilterColumns([...columns]);
-  };
-  const handleIsCheck = (key: string) => {
-    return filterColumns.some((col) => col.key === key);
-  };
+  const hideAllColumns = useCallback(() => {
+    setFilterColumns((prev: any) =>
+      prev.map((col: IColumnsFilter) => ({ ...col, isShow: false }))
+    );
+  }, [setFilterColumns]);
+  const showAllColumns = useCallback(() => {
+    setFilterColumns((prev: any) =>
+      prev.map((col: IColumnsFilter) => ({ ...col, isShow: true }))
+    );
+  }, [setFilterColumns]);
+  const hideOneColumn = useCallback((key: string) => {
+    let copyData = [...filterColumns];
+    copyData.map((col: IColumnsFilter) => {
+      if (col.key === key) {
+        return (col.isShow = false);
+      }
+      return col;
+    });
+    setFilterColumns(copyData);
+  },[filterColumns, setFilterColumns])
   return (
     <Fragment>
       <thead className="border-b bg-bg-default select-none">
@@ -106,41 +109,45 @@ const Thead: FC<Props> = ({
           )}
           {columns &&
             columns.length > 0 &&
-            filterColumns.map((c: any) => {
+            filterColumns.map((c: IColumnsFilter) => {
               return (
-                <th
-                  key={c.key}
-                  scope="col"
-                  className="text-sm text-text-primary font-medium pl-2 py-4 text-left group"
-                >
-                  <div className="flex justify-between items-center">
-                    <div className="flex items-center">
-                      <span>{c.title}</span>
-                      <span
-                        className="mx-3 text-text-primary cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => {
-                          handleSort();
-                          setKeySort(c?.key);
-                        }}
-                      >
-                        {sortTypes[currentSort.toLowerCase()].icon}
-                      </span>
+                c.isShow && (
+                  <th
+                    key={c.key}
+                    scope="col"
+                    className="text-sm text-text-primary font-medium pl-2 py-4 text-left group"
+                  >
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center">
+                        <span>{c.title}</span>
+                        <span
+                          className="mx-3 text-text-primary cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => {
+                            handleSort();
+                            setKeySort(c?.key);
+                          }}
+                        >
+                          {sortTypes[currentSort.toLowerCase()].icon}
+                        </span>
+                      </div>
+                      <div>
+                        <MenuCore>
+                          <MenuToggle>
+                            <span className="cursor-pointer text-text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                              <BsGripVertical />
+                            </span>
+                          </MenuToggle>
+                          <Menu>
+                            <MenuItem onClick={() => hideOneColumn(c.key)}>
+                              Hide
+                            </MenuItem>
+                            <MenuItem onClick={open}>Show Columns</MenuItem>
+                          </Menu>
+                        </MenuCore>
+                      </div>
                     </div>
-                    <div>
-                      <MenuCore>
-                        <MenuToggle>
-                          <span className="cursor-pointer text-text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                            <BsGripVertical />
-                          </span>
-                        </MenuToggle>
-                        <Menu>
-                          <MenuItem>Hide</MenuItem>
-                          <MenuItem onClick={open}>Show Columns</MenuItem>
-                        </Menu>
-                      </MenuCore>
-                    </div>
-                  </div>
-                </th>
+                  </th>
+                )
               );
             })}
           {actions &&
@@ -184,12 +191,12 @@ const Thead: FC<Props> = ({
       >
         <Dialog.Body>
           <div>
-            {columns.length &&
-              columns.map((i) => {
+            {filterColumns.length &&
+              filterColumns.map((i) => {
                 return (
                   <div className="flex my-2 px-4" key={i.key}>
                     <Checkbox
-                      checked={handleIsCheck(i.key)}
+                      checked={i.isShow}
                       setChecked={() => setShowColumns(i.key)}
                     >
                       <Switch className="mx-2" />

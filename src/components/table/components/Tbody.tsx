@@ -1,7 +1,7 @@
 import { FC, useCallback, useContext } from "react";
 import { InputCheckbox } from "../../checkbox/Checkbox";
 import { TableContext } from "../context/TableContext";
-import { IActions } from "../types";
+import { IActions, IColumnsFilter } from "../types";
 
 interface Props {
   data: Object[];
@@ -57,14 +57,16 @@ const Tbody: FC<Props> = ({ data, columns }) => {
                   />
                 </td>
               )}
-              {filterColumns.map((c: any, index) => {
+              {filterColumns.map((c: IColumnsFilter, index) => {
                 return (
-                  <td
-                    key={index}
-                    className="text-sm ltr:text-left rtl:text-right text-text-primary font-light px-2 py-4 whitespace-nowrap"
-                  >
-                    {c?.differentShow ? c?.differentShow(i) : i[c?.key]}
-                  </td>
+                  c.isShow && (
+                    <td
+                      key={index}
+                      className="text-sm ltr:text-left rtl:text-right text-text-primary font-light px-2 py-4 whitespace-nowrap"
+                    >
+                      {c?.differentShow ? c?.differentShow(i) : i[c?.key]}
+                    </td>
+                  )
                 );
               })}
               {actions &&
