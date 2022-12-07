@@ -193,7 +193,7 @@ const Main = () => {
             actions={actionsTable}
             error={error}
             id={"table-players"}
-            keySearch={['fullname','phone']}
+            keySearch={["fullname", "phone"]}
           />
           <table
             id="table-players"

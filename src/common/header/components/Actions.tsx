@@ -9,16 +9,16 @@ import Mode from "./Mode";
 
 const Screen = memo(() => {
   return (
-    <Button
-      color="link"
-      className="mx-2 cursor-pointer"
-      rounded={true}
-      onClick={openFullscreen}
-    >
-      <Tooltip content={"hello world"} position={"bottom"}>
+    <Tooltip content={"hello world"} position="bottom">
+      <Button
+        color="link"
+        className="mx-2 cursor-pointer"
+        rounded={true}
+        onClick={openFullscreen}
+      >
         <BsArrowsFullscreen size={"1.4rem"} color={"#626477"} />
-      </Tooltip>
-    </Button>
+      </Button>
+    </Tooltip>
   );
 });
 
